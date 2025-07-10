@@ -9,9 +9,11 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+      <Route path="/info" element={<HomePage />} />
         <Route path="/admin" element={<AdminRoute />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        {/* يمكنك إضافة صفحة رئيسية فارغة أو توجيه المستخدم مباشرة إلى /info إذا لم تكن بحاجة لصفحة رئيسية على المسار الأساسي / */}
+        <Route path="/" element={<Navigate to="/info" replace />} />
+        <Route path="*" element={<Navigate to="/info" replace />} /> {/* التأكد من توجيه أي مسارات غير معروفة إلى /info */}
       </Routes>
     </Router>
   );
