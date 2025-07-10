@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { UAParser } from 'ua-parser-js';
 
 export const QRRedirect: React.FC = () => {
   const { shortCode } = useParams<{ shortCode: string }>();
@@ -32,8 +31,7 @@ export const QRRedirect: React.FC = () => {
         }
 
         // Get user info for analytics
-        const parser = new UAParser();
-        const result = parser.getResult();
+        const userAgent = navigator.userAgent;
         
         // Extract browser name
         const getBrowserName = (userAgent: string): string => {
@@ -43,6 +41,19 @@ export const QRRedirect: React.FC = () => {
           if (userAgent.includes('Edge')) return 'Edge';
           if (userAgent.includes('Opera')) return 'Opera';
           return 'Other';
+        };
+        
+        // Better device type detection
+        const getDeviceType = (userAgent: string): string => {
+          if (/iPad/.test(userAgent)) return 'tablet';
+          if (/iPhone|iPod/.test(userAgent)) return 'mobile';
+          if (/Android/.test(userAgent)) {
+            if (/Mobile/.test(userAgent)) return 'mobile';
+            return 'tablet';
+          }
+          if (/Windows Phone/.test(userAgent)) return 'mobile';
+          if (/BlackBerry|BB10/.test(userAgent)) return 'mobile';
+          return 'desktop';
         };
         
         // Get IP and location (using a free service)
@@ -62,8 +73,8 @@ export const QRRedirect: React.FC = () => {
           ip_address: locationData?.ip || null,
           country: locationData?.country_name || null,
           city: locationData?.city || null,
-          device_type: result.device.type || (result.os.name?.includes('Mobile') ? 'mobile' : 'desktop'),
-          operating_system: `${result.os.name || 'Unknown'} ${result.os.version || ''}`.trim(),
+          device_type: getDeviceType(userAgent),
+          operating_system: navigator.platform || 'Unknown',
           browser: getBrowserName(navigator.userAgent),
           user_agent: navigator.userAgent
         };

@@ -150,7 +150,7 @@ export const QRCodeManager: React.FC = () => {
   };
 
   return (
-    <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-6 border border-pink-100">
+    <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-4 md:p-6 border border-pink-100 mb-8">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-semibold text-gray-800 flex items-center">
           <QrCode className="w-5 h-5 mr-2" />
@@ -161,16 +161,17 @@ export const QRCodeManager: React.FC = () => {
             setQRForm({ ...qrForm, shortCode: generateShortCode() });
             setShowAddForm(true);
           }}
-          className="flex items-center space-x-2 px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors"
+          className="flex items-center space-x-1 md:space-x-2 px-3 md:px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors text-sm md:text-base"
         >
           <Plus size={16} />
-          <span>Create QR Code</span>
+          <span className="hidden sm:inline">Create QR Code</span>
+          <span className="sm:hidden">Create</span>
         </button>
       </div>
 
       {/* Add QR Form */}
       {showAddForm && (
-        <div className="bg-pink-50 rounded-xl p-6 mb-6 border border-pink-200">
+        <div className="bg-pink-50 rounded-xl p-4 md:p-6 mb-6 border border-pink-200">
           <form onSubmit={handleAddQR} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -181,7 +182,7 @@ export const QRCodeManager: React.FC = () => {
                   type="text"
                   value={qrForm.name}
                   onChange={(e) => setQRForm(prev => ({ ...prev, name: e.target.value }))}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                  className="w-full px-3 md:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm md:text-base"
                   placeholder="e.g., Website Link"
                   required
                 />
@@ -195,14 +196,14 @@ export const QRCodeManager: React.FC = () => {
                     type="text"
                     value={qrForm.shortCode}
                     onChange={(e) => setQRForm(prev => ({ ...prev, shortCode: e.target.value.toLowerCase() }))}
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    className="flex-1 px-3 md:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm md:text-base"
                     placeholder="abc123"
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setQRForm(prev => ({ ...prev, shortCode: generateShortCode() }))}
-                    className="px-3 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors"
+                    className="px-3 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors text-sm"
                   >
                     Generate
                   </button>
@@ -217,7 +218,7 @@ export const QRCodeManager: React.FC = () => {
                 type="url"
                 value={qrForm.destinationUrl}
                 onChange={(e) => setQRForm(prev => ({ ...prev, destinationUrl: e.target.value }))}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                className="w-full px-3 md:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm md:text-base"
                 placeholder="https://example.com"
                 required
               />
@@ -225,7 +226,7 @@ export const QRCodeManager: React.FC = () => {
             <div className="flex items-center space-x-4">
               <button
                 type="submit"
-                className="flex items-center space-x-2 px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors"
+                className="flex items-center space-x-1 md:space-x-2 px-3 md:px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors text-sm md:text-base"
               >
                 <Save size={16} />
                 <span>Create QR Code</span>
@@ -233,7 +234,7 @@ export const QRCodeManager: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setShowAddForm(false)}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+                className="px-3 md:px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors text-sm md:text-base"
               >
                 Cancel
               </button>
@@ -250,35 +251,35 @@ export const QRCodeManager: React.FC = () => {
           qrCodes.map((qr) => (
             <div
               key={qr.id}
-              className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-200"
+              className="flex flex-col lg:flex-row lg:items-center justify-between p-3 md:p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-3 lg:space-y-0"
             >
               {editingQR?.id === qr.id ? (
-                <form onSubmit={handleUpdateQR} className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <form onSubmit={handleUpdateQR} className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
                   <input
                     type="text"
                     value={editingQR.name}
                     onChange={(e) => setEditingQR(prev => prev ? { ...prev, name: e.target.value } : null)}
-                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm"
                     required
                   />
                   <input
                     type="text"
                     value={editingQR.shortCode}
                     onChange={(e) => setEditingQR(prev => prev ? { ...prev, shortCode: e.target.value.toLowerCase() } : null)}
-                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm"
                     required
                   />
                   <input
                     type="url"
                     value={editingQR.destinationUrl}
                     onChange={(e) => setEditingQR(prev => prev ? { ...prev, destinationUrl: e.target.value } : null)}
-                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm"
                     required
                   />
-                  <div className="flex items-center space-x-2 md:col-span-3">
+                  <div className="flex items-center space-x-2 sm:col-span-2 lg:col-span-3">
                     <button
                       type="submit"
-                      className="flex items-center space-x-1 px-3 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+                      className="flex items-center space-x-1 px-3 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors text-sm"
                     >
                       <Save size={14} />
                       <span>Save</span>
@@ -286,7 +287,7 @@ export const QRCodeManager: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setEditingQR(null)}
-                      className="px-3 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+                      className="px-3 py-2 text-gray-600 hover:text-gray-800 transition-colors text-sm"
                     >
                       Cancel
                     </button>
@@ -294,13 +295,13 @@ export const QRCodeManager: React.FC = () => {
                 </form>
               ) : (
                 <>
-                  <div className="flex items-center space-x-4 flex-1">
+                  <div className="flex items-center space-x-3 md:space-x-4 flex-1 min-w-0">
                     <div className="w-8 h-8 bg-pink-100 rounded-lg flex items-center justify-center">
                       <QrCode className="w-5 h-5 text-pink-600" />
                     </div>
-                    <div>
+                    <div className="min-w-0 flex-1">
                       <p className="font-medium text-gray-800">{qr.name}</p>
-                      <div className="flex items-center space-x-2 text-sm text-gray-600">
+                      <div className="flex items-center space-x-2 text-xs md:text-sm text-gray-600">
                         <span>/qr/{qr.shortCode}</span>
                         <button
                           onClick={() => copyToClipboard(`${window.location.origin}/qr/${qr.shortCode}`)}
@@ -310,7 +311,7 @@ export const QRCodeManager: React.FC = () => {
                           <Copy size={12} />
                         </button>
                       </div>
-                      <p className="text-xs text-gray-500 truncate max-w-xs">{qr.destinationUrl}</p>
+                      <p className="text-xs text-gray-500 truncate">{qr.destinationUrl}</p>
                     </div>
                     <span className={`px-2 py-1 rounded-full text-xs ${
                       qr.isActive 
@@ -320,7 +321,7 @@ export const QRCodeManager: React.FC = () => {
                       {qr.isActive ? 'Active' : 'Inactive'}
                     </span>
                   </div>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-1 md:space-x-2 flex-shrink-0 overflow-x-auto">
                     <button
                       onClick={() => handleCustomizeQR(qr)}
                       className="p-2 hover:bg-gray-200 rounded-lg transition-colors"

@@ -135,7 +135,7 @@ export const AdminPanel: React.FC = () => {
 
       <div className="container mx-auto px-6 py-8 max-w-4xl">
         {/* Profile Section */}
-        <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-6 mb-8 border border-pink-100">
+        <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-4 md:p-6 mb-8 border border-pink-100">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-semibold text-gray-800 flex items-center">
               <User className="w-5 h-5 mr-2" />
@@ -165,7 +165,7 @@ export const AdminPanel: React.FC = () => {
                   type="text"
                   value={profileForm.username}
                   onChange={(e) => setProfileForm(prev => ({ ...prev, username: e.target.value }))}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                  className="w-full px-3 md:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm md:text-base"
                   required
                 />
               </div>
@@ -176,7 +176,7 @@ export const AdminPanel: React.FC = () => {
                 <textarea
                   value={profileForm.description}
                   onChange={(e) => setProfileForm(prev => ({ ...prev, description: e.target.value }))}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                  className="w-full px-3 md:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm md:text-base"
                   rows={3}
                   required
                 />
@@ -201,21 +201,22 @@ export const AdminPanel: React.FC = () => {
         <QRCodeManager />
 
         {/* Social Links Section */}
-        <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-6 border border-pink-100">
+        <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-4 md:p-6 border border-pink-100">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-semibold text-gray-800">Social Media Links</h2>
             <button
               onClick={() => setShowAddForm(true)}
-              className="flex items-center space-x-2 px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors"
+              className="flex items-center space-x-1 md:space-x-2 px-3 md:px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors text-sm md:text-base"
             >
               <Plus size={16} />
-              <span>Add Link</span>
+              <span className="hidden sm:inline">Add Link</span>
+              <span className="sm:hidden">Add</span>
             </button>
           </div>
 
           {/* Add Link Form */}
           {showAddForm && (
-            <div className="bg-pink-50 rounded-xl p-6 mb-6 border border-pink-200">
+            <div className="bg-pink-50 rounded-xl p-4 md:p-6 mb-6 border border-pink-200">
               <form onSubmit={handleAddLink} className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
@@ -226,7 +227,7 @@ export const AdminPanel: React.FC = () => {
                       type="text"
                       value={linkForm.name}
                       onChange={(e) => setLinkForm(prev => ({ ...prev, name: e.target.value }))}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                      className="w-full px-3 md:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm md:text-base"
                       placeholder="e.g., Instagram"
                       required
                     />
@@ -239,7 +240,7 @@ export const AdminPanel: React.FC = () => {
                       type="url"
                       value={linkForm.url}
                       onChange={(e) => setLinkForm(prev => ({ ...prev, url: e.target.value }))}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                      className="w-full px-3 md:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm md:text-base"
                       placeholder="https://..."
                       required
                     />
@@ -252,7 +253,7 @@ export const AdminPanel: React.FC = () => {
                   <select
                     value={linkForm.icon}
                     onChange={(e) => setLinkForm(prev => ({ ...prev, icon: e.target.value }))}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    className="w-full px-3 md:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm md:text-base"
                   >
                     {socialIconOptions.map(icon => (
                       <option key={icon} value={icon}>
@@ -264,7 +265,7 @@ export const AdminPanel: React.FC = () => {
                 <div className="flex items-center space-x-4">
                   <button
                     type="submit"
-                    className="flex items-center space-x-2 px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors"
+                    className="flex items-center space-x-1 md:space-x-2 px-3 md:px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors text-sm md:text-base"
                   >
                     <Save size={16} />
                     <span>Add Link</span>
@@ -272,7 +273,7 @@ export const AdminPanel: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setShowAddForm(false)}
-                    className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+                    className="px-3 md:px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors text-sm md:text-base"
                   >
                     Cancel
                   </button>
@@ -289,28 +290,28 @@ export const AdminPanel: React.FC = () => {
               links.map((link) => (
                 <div
                   key={link.id}
-                  className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-200"
+                  className="flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-3 sm:space-y-0"
                 >
                   {editingLink?.id === link.id ? (
-                    <form onSubmit={handleUpdateLink} className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <form onSubmit={handleUpdateLink} className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
                       <input
                         type="text"
                         value={editingLink.name}
                         onChange={(e) => setEditingLink(prev => prev ? { ...prev, name: e.target.value } : null)}
-                        className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                        className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm"
                         required
                       />
                       <input
                         type="url"
                         value={editingLink.url}
                         onChange={(e) => setEditingLink(prev => prev ? { ...prev, url: e.target.value } : null)}
-                        className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                        className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm"
                         required
                       />
                       <select
                         value={editingLink.icon}
                         onChange={(e) => setEditingLink(prev => prev ? { ...prev, icon: e.target.value } : null)}
-                        className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                        className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm"
                       >
                         {socialIconOptions.map(icon => (
                           <option key={icon} value={icon}>
@@ -318,10 +319,10 @@ export const AdminPanel: React.FC = () => {
                           </option>
                         ))}
                       </select>
-                      <div className="flex items-center space-x-2 md:col-span-3">
+                      <div className="flex items-center space-x-2 sm:col-span-2 lg:col-span-3">
                         <button
                           type="submit"
-                          className="flex items-center space-x-1 px-3 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+                          className="flex items-center space-x-1 px-3 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors text-sm"
                         >
                           <Save size={14} />
                           <span>Save</span>
@@ -329,7 +330,7 @@ export const AdminPanel: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => setEditingLink(null)}
-                          className="px-3 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+                          className="px-3 py-2 text-gray-600 hover:text-gray-800 transition-colors text-sm"
                         >
                           Cancel
                         </button>
@@ -337,13 +338,13 @@ export const AdminPanel: React.FC = () => {
                     </form>
                   ) : (
                     <>
-                      <div className="flex items-center space-x-4 flex-1">
+                      <div className="flex items-center space-x-3 md:space-x-4 flex-1 min-w-0">
                         <div className="w-8 h-8 text-pink-500">
                           {React.createElement(getSocialIcon(link.icon), { size: 24 })}
                         </div>
-                        <div>
+                        <div className="min-w-0 flex-1">
                           <p className="font-medium text-gray-800">{link.name}</p>
-                          <p className="text-sm text-gray-600 truncate max-w-xs">{link.url}</p>
+                          <p className="text-xs md:text-sm text-gray-600 truncate">{link.url}</p>
                         </div>
                         <span className={`px-2 py-1 rounded-full text-xs ${
                           link.isVisible 
@@ -353,7 +354,7 @@ export const AdminPanel: React.FC = () => {
                           {link.isVisible ? 'Visible' : 'Hidden'}
                         </span>
                       </div>
-                      <div className="flex items-center space-x-2">
+                      <div className="flex items-center space-x-1 md:space-x-2 flex-shrink-0">
                         <button
                           onClick={() => handleToggleVisibility(link)}
                           className="p-2 hover:bg-gray-200 rounded-lg transition-colors"

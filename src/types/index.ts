@@ -24,6 +24,7 @@ export interface QRCode {
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
+  customization?: QRCustomization;
 }
 
 export interface QRAnalytics {

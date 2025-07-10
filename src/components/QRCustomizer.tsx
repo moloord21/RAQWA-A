@@ -141,10 +141,10 @@ export const QRCustomizer: React.FC<QRCustomizerProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-2xl max-w-6xl w-full max-h-[95vh] overflow-hidden">
         <div className="p-6 border-b border-gray-200">
           <div className="flex items-center justify-between">
-            <h3 className="text-xl font-semibold text-gray-800 flex items-center">
+            <h3 className="text-lg md:text-xl font-semibold text-gray-800 flex items-center">
               <Palette className="w-5 h-5 mr-2" />
               Customize QR Code
             </h3>
@@ -157,22 +157,22 @@ export const QRCustomizer: React.FC<QRCustomizerProps> = ({
           </div>
         </div>
         
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="p-4 md:p-6 overflow-y-auto max-h-[calc(95vh-120px)]">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 md:gap-8">
             {/* Preview */}
             <div className="space-y-6">
               <div>
-                <h4 className="text-lg font-semibold text-gray-800 mb-4">Preview</h4>
-                <div className="flex justify-center p-8 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300">
+                <h4 className="text-base md:text-lg font-semibold text-gray-800 mb-4">Preview</h4>
+                <div className="flex justify-center p-4 md:p-8 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300">
                   {qrDataUrl ? (
                     <img 
                       src={qrDataUrl} 
                       alt="QR Code Preview" 
                       className="max-w-full h-auto"
-                      style={{ width: Math.min(customization.size, 300) }}
+                      style={{ width: Math.min(customization.size, 250) }}
                     />
                   ) : (
-                    <div className="w-48 h-48 bg-gray-200 rounded-lg flex items-center justify-center">
+                    <div className="w-32 md:w-48 h-32 md:h-48 bg-gray-200 rounded-lg flex items-center justify-center">
                       <span className="text-gray-500">Generating...</span>
                     </div>
                   )}
@@ -182,14 +182,14 @@ export const QRCustomizer: React.FC<QRCustomizerProps> = ({
               <div className="flex space-x-3">
                 <button
                   onClick={downloadQRCode}
-                  className="flex-1 flex items-center justify-center space-x-2 px-4 py-3 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors"
+                  className="flex-1 flex items-center justify-center space-x-1 md:space-x-2 px-3 md:px-4 py-2 md:py-3 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors text-sm md:text-base"
                 >
                   <Download size={16} />
                   <span>Download</span>
                 </button>
                 <button
                   onClick={resetToDefaults}
-                  className="flex items-center justify-center space-x-2 px-4 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+                  className="flex items-center justify-center space-x-1 md:space-x-2 px-3 md:px-4 py-2 md:py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors text-sm md:text-base"
                 >
                   <RotateCcw size={16} />
                   <span>Reset</span>
@@ -199,7 +199,7 @@ export const QRCustomizer: React.FC<QRCustomizerProps> = ({
 
             {/* Customization Options */}
             <div className="space-y-6">
-              <h4 className="text-lg font-semibold text-gray-800">Customization Options</h4>
+              <h4 className="text-base md:text-lg font-semibold text-gray-800">Customization Options</h4>
               
               {/* Colors */}
               <div className="space-y-4">
@@ -210,23 +210,23 @@ export const QRCustomizer: React.FC<QRCustomizerProps> = ({
                   <div className="relative">
                     <button
                       onClick={() => setShowForegroundPicker(!showForegroundPicker)}
-                      className="w-full flex items-center space-x-3 p-3 border border-gray-300 rounded-lg hover:border-gray-400 transition-colors"
+                      className="w-full flex items-center space-x-2 md:space-x-3 p-2 md:p-3 border border-gray-300 rounded-lg hover:border-gray-400 transition-colors"
                     >
                       <div 
                         className="w-6 h-6 rounded border border-gray-300"
                         style={{ backgroundColor: customization.foregroundColor }}
                       />
-                      <span className="font-mono text-sm">{customization.foregroundColor}</span>
+                      <span className="font-mono text-xs md:text-sm">{customization.foregroundColor}</span>
                     </button>
                     {showForegroundPicker && (
-                      <div className="absolute top-full left-0 mt-2 z-10 bg-white rounded-lg shadow-lg border border-gray-200 p-3">
+                      <div className="absolute top-full left-0 mt-2 z-10 bg-white rounded-lg shadow-lg border border-gray-200 p-2 md:p-3">
                         <HexColorPicker
                           color={customization.foregroundColor}
                           onChange={(color) => setCustomization(prev => ({ ...prev, foregroundColor: color }))}
                         />
                         <button
                           onClick={() => setShowForegroundPicker(false)}
-                          className="mt-2 w-full px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                          className="mt-2 w-full px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm"
                         >
                           Done
                         </button>
@@ -242,23 +242,23 @@ export const QRCustomizer: React.FC<QRCustomizerProps> = ({
                   <div className="relative">
                     <button
                       onClick={() => setShowBackgroundPicker(!showBackgroundPicker)}
-                      className="w-full flex items-center space-x-3 p-3 border border-gray-300 rounded-lg hover:border-gray-400 transition-colors"
+                      className="w-full flex items-center space-x-2 md:space-x-3 p-2 md:p-3 border border-gray-300 rounded-lg hover:border-gray-400 transition-colors"
                     >
                       <div 
                         className="w-6 h-6 rounded border border-gray-300"
                         style={{ backgroundColor: customization.backgroundColor }}
                       />
-                      <span className="font-mono text-sm">{customization.backgroundColor}</span>
+                      <span className="font-mono text-xs md:text-sm">{customization.backgroundColor}</span>
                     </button>
                     {showBackgroundPicker && (
-                      <div className="absolute top-full left-0 mt-2 z-10 bg-white rounded-lg shadow-lg border border-gray-200 p-3">
+                      <div className="absolute top-full left-0 mt-2 z-10 bg-white rounded-lg shadow-lg border border-gray-200 p-2 md:p-3">
                         <HexColorPicker
                           color={customization.backgroundColor}
                           onChange={(color) => setCustomization(prev => ({ ...prev, backgroundColor: color }))}
                         />
                         <button
                           onClick={() => setShowBackgroundPicker(false)}
-                          className="mt-2 w-full px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                          className="mt-2 w-full px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm"
                         >
                           Done
                         </button>
@@ -327,17 +327,21 @@ export const QRCustomizer: React.FC<QRCustomizerProps> = ({
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Logo Size: {customization.logoSize}px
+                        Logo Size: {customization.logoSize || 40}px
                       </label>
                       <input
                         type="range"
-                        min="20"
-                        max="80"
+                        min="30"
+                        max="100"
                         step="5"
                         value={customization.logoSize || 40}
                         onChange={(e) => setCustomization(prev => ({ ...prev, logoSize: parseInt(e.target.value) }))}
                         className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
                       />
+                      <div className="flex justify-between text-xs text-gray-500 mt-1">
+                        <span>30px</span>
+                        <span>100px</span>
+                      </div>
                     </div>
                   </div>
                 ) : (
@@ -351,10 +355,10 @@ export const QRCustomizer: React.FC<QRCustomizerProps> = ({
                     />
                     <label
                       htmlFor="logo-upload"
-                      className="flex items-center justify-center space-x-2 w-full p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400 cursor-pointer transition-colors"
+                      className="flex items-center justify-center space-x-2 w-full p-3 md:p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400 cursor-pointer transition-colors"
                     >
                       <Upload size={20} className="text-gray-400" />
-                      <span className="text-gray-600">Upload logo image</span>
+                      <span className="text-gray-600 text-sm md:text-base">Upload logo image</span>
                     </label>
                   </div>
                 )}
@@ -363,16 +367,16 @@ export const QRCustomizer: React.FC<QRCustomizerProps> = ({
           </div>
         </div>
 
-        <div className="p-6 border-t border-gray-200 flex justify-end space-x-3">
+        <div className="p-4 md:p-6 border-t border-gray-200 flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3">
           <button
             onClick={onClose}
-            className="px-6 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+            className="px-4 md:px-6 py-2 text-gray-600 hover:text-gray-800 transition-colors text-sm md:text-base"
           >
             Cancel
           </button>
           <button
             onClick={handleSave}
-            className="px-6 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors"
+            className="px-4 md:px-6 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors text-sm md:text-base"
           >
             Save Customization
           </button>

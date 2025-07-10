@@ -49,19 +49,19 @@ export const QRAnalyticsDashboard: React.FC<QRAnalyticsDashboardProps> = ({ summ
     <div className="space-y-6">
       {/* Header */}
       <div className="text-center mb-6">
-        <h3 className="text-2xl font-bold text-gray-800 mb-2">Analytics for "{qrName}"</h3>
+        <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-2">Analytics for "{qrName}"</h3>
         <p className="text-gray-600">Comprehensive scan analytics and insights</p>
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
         <div className="bg-gradient-to-r from-pink-500 to-pink-600 rounded-xl p-4 text-white">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-pink-100 text-sm">Total Scans</p>
-              <p className="text-2xl font-bold">{summary.totalScans.toLocaleString()}</p>
+              <p className="text-xl md:text-2xl font-bold">{summary.totalScans.toLocaleString()}</p>
             </div>
-            <TrendingUp className="w-8 h-8 text-pink-200" />
+            <TrendingUp className="w-6 md:w-8 h-6 md:h-8 text-pink-200" />
           </div>
         </div>
         
@@ -69,9 +69,9 @@ export const QRAnalyticsDashboard: React.FC<QRAnalyticsDashboardProps> = ({ summ
           <div className="flex items-center justify-between">
             <div>
               <p className="text-blue-100 text-sm">Today</p>
-              <p className="text-2xl font-bold">{summary.todayScans}</p>
+              <p className="text-xl md:text-2xl font-bold">{summary.todayScans}</p>
             </div>
-            <Calendar className="w-8 h-8 text-blue-200" />
+            <Calendar className="w-6 md:w-8 h-6 md:h-8 text-blue-200" />
           </div>
         </div>
         
@@ -79,9 +79,9 @@ export const QRAnalyticsDashboard: React.FC<QRAnalyticsDashboardProps> = ({ summ
           <div className="flex items-center justify-between">
             <div>
               <p className="text-green-100 text-sm">This Week</p>
-              <p className="text-2xl font-bold">{summary.weekScans}</p>
+              <p className="text-xl md:text-2xl font-bold">{summary.weekScans}</p>
             </div>
-            <TrendingUp className="w-8 h-8 text-green-200" />
+            <TrendingUp className="w-6 md:w-8 h-6 md:h-8 text-green-200" />
           </div>
         </div>
         
@@ -89,15 +89,15 @@ export const QRAnalyticsDashboard: React.FC<QRAnalyticsDashboardProps> = ({ summ
           <div className="flex items-center justify-between">
             <div>
               <p className="text-purple-100 text-sm">This Month</p>
-              <p className="text-2xl font-bold">{summary.monthScans}</p>
+              <p className="text-xl md:text-2xl font-bold">{summary.monthScans}</p>
             </div>
-            <Calendar className="w-8 h-8 text-purple-200" />
+            <Calendar className="w-6 md:w-8 h-6 md:h-8 text-purple-200" />
           </div>
         </div>
       </div>
 
       {/* Last Scan Info */}
-      <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+      <div className="bg-gray-50 rounded-xl p-3 md:p-4 border border-gray-200">
         <div className="flex items-center space-x-2">
           <Clock className="w-5 h-5 text-gray-500" />
           <span className="text-sm text-gray-600">Last scan:</span>
@@ -108,11 +108,11 @@ export const QRAnalyticsDashboard: React.FC<QRAnalyticsDashboardProps> = ({ summ
       </div>
 
       {/* Charts Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 md:gap-6">
         {/* Scans Over Time */}
-        <div className="bg-white rounded-xl p-6 border border-gray-200">
-          <h4 className="text-lg font-semibold text-gray-800 mb-4">Scans Over Time (30 Days)</h4>
-          <ResponsiveContainer width="100%" height={250}>
+        <div className="bg-white rounded-xl p-4 md:p-6 border border-gray-200">
+          <h4 className="text-base md:text-lg font-semibold text-gray-800 mb-4">Scans Over Time (30 Days)</h4>
+          <ResponsiveContainer width="100%" height={200}>
             <LineChart data={summary.scansByDate}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
               <XAxis 
@@ -145,8 +145,8 @@ export const QRAnalyticsDashboard: React.FC<QRAnalyticsDashboardProps> = ({ summ
         </div>
 
         {/* Top Countries */}
-        <div className="bg-white rounded-xl p-6 border border-gray-200">
-          <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+        <div className="bg-white rounded-xl p-4 md:p-6 border border-gray-200">
+          <h4 className="text-base md:text-lg font-semibold text-gray-800 mb-4 flex items-center">
             <Globe className="w-5 h-5 mr-2" />
             Top Countries
           </h4>
@@ -178,13 +178,13 @@ export const QRAnalyticsDashboard: React.FC<QRAnalyticsDashboardProps> = ({ summ
         </div>
 
         {/* Device Types */}
-        <div className="bg-white rounded-xl p-6 border border-gray-200">
-          <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+        <div className="bg-white rounded-xl p-4 md:p-6 border border-gray-200">
+          <h4 className="text-base md:text-lg font-semibold text-gray-800 mb-4 flex items-center">
             <Smartphone className="w-5 h-5 mr-2" />
             Device Types
           </h4>
           {summary.topDevices.length > 0 ? (
-            <ResponsiveContainer width="100%" height={200}>
+            <ResponsiveContainer width="100%" height={180}>
               <PieChart>
                 <Pie
                   data={summary.topDevices}
@@ -229,13 +229,13 @@ export const QRAnalyticsDashboard: React.FC<QRAnalyticsDashboardProps> = ({ summ
         </div>
 
         {/* Top Browsers */}
-        <div className="bg-white rounded-xl p-6 border border-gray-200">
-          <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+        <div className="bg-white rounded-xl p-4 md:p-6 border border-gray-200">
+          <h4 className="text-base md:text-lg font-semibold text-gray-800 mb-4 flex items-center">
             <Monitor className="w-5 h-5 mr-2" />
             Top Browsers
           </h4>
           {summary.topBrowsers.length > 0 ? (
-            <ResponsiveContainer width="100%" height={250}>
+            <ResponsiveContainer width="100%" height={200}>
               <BarChart data={summary.topBrowsers} layout="horizontal">
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                 <XAxis type="number" tick={{ fontSize: 12 }} stroke="#666" />
@@ -244,7 +244,7 @@ export const QRAnalyticsDashboard: React.FC<QRAnalyticsDashboardProps> = ({ summ
                   dataKey="browser" 
                   tick={{ fontSize: 12 }}
                   stroke="#666"
-                  width={60}
+                  width={50}
                 />
                 <Tooltip 
                   contentStyle={{ 

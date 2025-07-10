@@ -24,7 +24,8 @@ export const useQRCodes = () => {
         destinationUrl: item.destination_url,
         isActive: item.is_active,
         createdAt: item.created_at,
-        updatedAt: item.updated_at
+        updatedAt: item.updated_at,
+        customization: item.customization
       }));
       
       setQRCodes(transformedData);
