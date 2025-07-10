@@ -4,16 +4,17 @@ import { HomePage } from './components/HomePage';
 import { AdminLogin } from './components/AdminLogin';
 import { AdminPanel } from './components/AdminPanel';
 import { useAuth } from './hooks/useAuth';
+import { QRRedirect } from './components/QRRedirect';
 
 function App() {
   return (
     <Router>
       <Routes>
-      <Route path="/info" element={<HomePage />} />
+        <Route path="/info" element={<HomePage />} />
+        <Route path="/qr/:shortCode" element={<QRRedirect />} />
         <Route path="/admin" element={<AdminRoute />} />
-        {/* يمكنك إضافة صفحة رئيسية فارغة أو توجيه المستخدم مباشرة إلى /info إذا لم تكن بحاجة لصفحة رئيسية على المسار الأساسي / */}
         <Route path="/" element={<Navigate to="/info" replace />} />
-        <Route path="*" element={<Navigate to="/info" replace />} /> {/* التأكد من توجيه أي مسارات غير معروفة إلى /info */}
+        <Route path="*" element={<Navigate to="/info" replace />} />
       </Routes>
     </Router>
   );

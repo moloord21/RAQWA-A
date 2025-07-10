@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { getSocialIcon } from '../utils/socialIcons.tsx';
+import { QRCodeManager } from './QRCodeManager';
 
 export const AdminPanel: React.FC = () => {
   const { logout } = useAuth();
@@ -195,6 +196,9 @@ export const AdminPanel: React.FC = () => {
             </div>
           )}
         </div>
+
+        {/* Social Links Section */}
+        <QRCodeManager />
 
         {/* Social Links Section */}
         <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-6 border border-pink-100">
