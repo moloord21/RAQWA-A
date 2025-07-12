@@ -57,7 +57,12 @@ export const QRCustomizer: React.FC<QRCustomizerProps> = ({
           dark: customization.foregroundColor,
           light: customization.backgroundColor
         },
-        errorCorrectionLevel: 'M'
+        errorCorrectionLevel: 'H',
+        type: 'image/png',
+        quality: 0.92,
+        rendererOpts: {
+          quality: 0.92
+        }
       });
 
       canvas.width = customization.size;
@@ -74,12 +79,24 @@ export const QRCustomizer: React.FC<QRCustomizerProps> = ({
           const x = (customization.size - logoSize) / 2;
           const y = (customization.size - logoSize) / 2;
           
-          // Draw white background for logo
+          // Draw clean circular background for logo
           ctx.fillStyle = customization.backgroundColor;
-          ctx.fillRect(x - 4, y - 4, logoSize + 8, logoSize + 8);
+          ctx.beginPath();
+          ctx.arc(x + logoSize/2, y + logoSize/2, (logoSize/2) + 6, 0, 2 * Math.PI);
+          ctx.fill();
+          
+          // Add subtle border
+          ctx.strokeStyle = customization.foregroundColor;
+          ctx.lineWidth = 1;
+          ctx.stroke();
           
           // Draw logo
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(x + logoSize/2, y + logoSize/2, logoSize/2, 0, 2 * Math.PI);
+          ctx.clip();
           ctx.drawImage(logo, x, y, logoSize, logoSize);
+          ctx.restore();
           
           setQrDataUrl(canvas.toDataURL());
         };
