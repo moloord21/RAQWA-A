@@ -47,10 +47,6 @@ export interface QRCustomization {
   margin: number;
   logoUrl?: string;
   logoSize?: number;
-  template?: string;
-  dotStyle?: 'square' | 'dots' | 'rounded';
-  cornerStyle?: 'square' | 'extra-rounded' | 'dot';
-  backgroundStyle?: 'square' | 'circle';
 }
 
 export interface QRAnalyticsSummary {
