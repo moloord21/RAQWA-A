@@ -21,13 +21,9 @@ export const SocialButton: React.FC<SocialButtonProps> = ({ link }) => {
           <IconComponent size={32} />
         </div>
         <span className="text-gray-800 font-medium text-lg group-hover:text-gray-900 transition-colors">
-        <span className="text-gray-800 font-normal text-lg group-hover:text-gray-900 transition-colors">
           {link.name}
         </span>
       </div>
       <div className="absolute inset-0 bg-gradient-to-r from-pink-500/5 to-pink-600/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
     </a>
   );
-};
-  )
-}
