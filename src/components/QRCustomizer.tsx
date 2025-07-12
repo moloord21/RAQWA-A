@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { QRCustomization } from '../types';
 import { HexColorPicker } from 'react-colorful';
+import { QRTemplateSelector } from './QRTemplateSelector';
 import { 
   Palette, 
   Download, 
@@ -28,7 +29,11 @@ export const QRCustomizer: React.FC<QRCustomizerProps> = ({
       foregroundColor: '#000000',
       backgroundColor: '#FFFFFF',
       size: 200,
-      margin: 2
+      margin: 2,
+      template: 'classic',
+      dotStyle: 'square',
+      cornerStyle: 'square',
+      backgroundStyle: 'square'
     }
   );
   
@@ -37,6 +42,7 @@ export const QRCustomizer: React.FC<QRCustomizerProps> = ({
   const [qrDataUrl, setQrDataUrl] = useState<string>('');
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [logoDataUrl, setLogoDataUrl] = useState<string>(initialCustomization?.logoUrl || '');
+  const [selectedTemplate, setSelectedTemplate] = useState(initialCustomization?.template || 'classic');
 
   useEffect(() => {
     generateQRCode();
@@ -148,8 +154,13 @@ export const QRCustomizer: React.FC<QRCustomizerProps> = ({
       foregroundColor: '#000000',
       backgroundColor: '#FFFFFF',
       size: 200,
-      margin: 2
+      margin: 2,
+      template: 'classic',
+      dotStyle: 'square',
+      cornerStyle: 'square',
+      backgroundStyle: 'square'
     });
+    setSelectedTemplate('classic');
     removeLogo();
   };
 
@@ -170,6 +181,19 @@ export const QRCustomizer: React.FC<QRCustomizerProps> = ({
     onSave(finalCustomization);
   };
 
+  const handleTemplateSelect = (templateId: string, templateCustomization: Partial<QRCustomization>) => {
+    setSelectedTemplate(templateId);
+    setCustomization(prev => ({
+      ...prev,
+      ...templateCustomization,
+      template: templateId,
+      // Preserve user's size, margin, and logo settings
+      size: prev.size,
+      margin: prev.margin,
+      logoUrl: prev.logoUrl,
+      logoSize: prev.logoSize
+    }));
+  };
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl shadow-2xl max-w-6xl w-full max-h-[95vh] overflow-hidden">
@@ -230,10 +254,17 @@ export const QRCustomizer: React.FC<QRCustomizerProps> = ({
 
             {/* Customization Options */}
             <div className="space-y-6">
-              <h4 className="text-base md:text-lg font-semibold text-gray-800">Customization Options</h4>
+              {/* Template Selection */}
+              <QRTemplateSelector
+                selectedTemplate={selectedTemplate}
+                onTemplateSelect={handleTemplateSelect}
+              />
               
-              {/* Colors */}
-              <div className="space-y-4">
+              <div className="border-t border-gray-200 pt-6">
+                <h4 className="text-base md:text-lg font-semibold text-gray-800 mb-4">Advanced Customization</h4>
+              
+                {/* Colors */}
+                <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Foreground Color (QR Dots)
