@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import QRCodeLib from 'qrcode';
 import { QRAnalyticsDashboard } from './QRAnalyticsDashboard';
-import { AdvancedQRCustomizer } from './AdvancedQRCustomizer';
+import { QRCustomizer } from './QRCustomizer';
 
 export const QRCodeManager: React.FC = () => {
   const { qrCodes, addQRCode, updateQRCode, deleteQRCode, getQRAnalytics, getQRAnalyticsSummary, updateQRCustomization, generateShortCode } = useQRCodes();
@@ -28,7 +28,7 @@ export const QRCodeManager: React.FC = () => {
   const [showAnalytics, setShowAnalytics] = useState<string | null>(null);
   const [analyticsSummary, setAnalyticsSummary] = useState<QRAnalyticsSummary | null>(null);
   const [loadingAnalytics, setLoadingAnalytics] = useState(false);
-  const [showAdvancedCustomizer, setShowAdvancedCustomizer] = useState<QRCode | null>(null);
+  const [showCustomizer, setShowCustomizer] = useState<QRCode | null>(null);
 
   const [qrForm, setQRForm] = useState({
     name: '',
@@ -137,13 +137,13 @@ export const QRCodeManager: React.FC = () => {
   };
 
   const handleCustomizeQR = (qr: QRCode) => {
-    setShowAdvancedCustomizer(qr);
+    setShowCustomizer(qr);
   };
 
-  const handleSaveAdvancedCustomization = async (qr: QRCode, customization: any) => {
+  const handleSaveCustomization = async (qr: QRCode, customization: any) => {
     try {
       await updateQRCustomization(qr.id, customization);
-      setShowAdvancedCustomizer(null);
+      setShowCustomizer(null);
     } catch (error) {
       console.error('Failed to save customization:', error);
     }
@@ -325,7 +325,7 @@ export const QRCodeManager: React.FC = () => {
                     <button
                       onClick={() => handleCustomizeQR(qr)}
                       className="p-2 hover:bg-gray-200 rounded-lg transition-colors"
-                      title="Advanced QR Designer"
+                      title="Customize QR Code"
                     >
                       <Palette size={16} />
                     </button>
@@ -411,13 +411,13 @@ export const QRCodeManager: React.FC = () => {
         </div>
       )}
 
-      {/* Advanced QR Customizer Modal */}
-      {showAdvancedCustomizer && (
-        <AdvancedQRCustomizer
-          qrUrl={`${window.location.origin}/qr/${showAdvancedCustomizer.shortCode}`}
-          initialCustomization={showAdvancedCustomizer.customization}
-          onSave={(customization) => handleSaveAdvancedCustomization(showAdvancedCustomizer, customization)}
-          onClose={() => setShowAdvancedCustomizer(null)}
+      {/* QR Customizer Modal */}
+      {showCustomizer && (
+        <QRCustomizer
+          qrUrl={`${window.location.origin}/qr/${showCustomizer.shortCode}`}
+          initialCustomization={showCustomizer.customization}
+          onSave={(customization) => handleSaveCustomization(showCustomizer, customization)}
+          onClose={() => setShowCustomizer(null)}
         />
       )}
     </div>
