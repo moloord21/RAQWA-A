@@ -121,6 +121,7 @@ export const AdminPanel: React.FC = () => {
                 <span className="text-sm font-medium">Back to Site</span>
               </Link>
               <h1 className="text-2xl font-bold text-gray-800">Admin Panel</h1>
+              <h1 className="text-2xl font-semibold text-gray-800 tracking-tight">Admin Panel</h1>
             </div>
             <button
               onClick={logout}

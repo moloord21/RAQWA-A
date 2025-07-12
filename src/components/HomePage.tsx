@@ -32,10 +32,10 @@ export const HomePage: React.FC = () => {
 
         {/* Profile Info */}
         <div className="text-center mb-12">
-          <h1 className="text-3xl font-bold text-gray-800 mb-3">
+          <h1 className="text-3xl font-semibold text-gray-800 mb-3 tracking-tight">
             {profile?.username || 'RAQWA'}
           </h1>
-          <p className="text-gray-600 text-lg leading-relaxed">
+          <p className="text-gray-600 text-lg leading-relaxed font-normal">
             {profile?.description || 'Welcome to my social media hub'}
           </p>
         </div>

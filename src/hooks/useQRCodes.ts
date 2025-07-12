@@ -283,6 +283,36 @@ export const useQRCodes = () => {
     }
   };
 
+  const generateQRCodeImage = async (qr: QRCode, customization?: any): Promise<string> => {
+    const qrUrl = `${window.location.origin}/qr/${qr.shortCode}`;
+    const custom = customization || qr.customization || {
+      foregroundColor: '#000000',
+      backgroundColor: '#FFFFFF',
+      size: 200,
+      margin: 2
+    };
+    
+    try {
+      return await QRCodeLib.toDataURL(qrUrl, {
+        width: custom.size || 200,
+        margin: custom.margin || 2,
+        color: {
+          dark: custom.foregroundColor || '#000000',
+          light: custom.backgroundColor || '#FFFFFF'
+        },
+        errorCorrectionLevel: 'H',
+        type: 'image/png',
+        quality: 0.92,
+        rendererOpts: {
+          quality: 0.92
+        }
+      });
+    } catch (error) {
+      console.error('Failed to generate QR code:', error);
+      return '';
+    }
+  };
+
   const generateShortCode = (): string => {
     return Math.random().toString(36).substring(2, 8).toLowerCase();
   };

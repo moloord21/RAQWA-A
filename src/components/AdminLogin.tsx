@@ -28,7 +28,7 @@ export const AdminLogin: React.FC = () => {
               <Lock className="w-8 h-8 text-white" />
             </div>
             <h1 className="text-2xl font-bold text-gray-800 mb-2">Admin Login</h1>
-            <p className="text-gray-600">Enter your password to access the admin panel</p>
+            <p className="text-gray-600 font-normal">Enter your password to access the admin panel</p>
           </div>
 
           {/* Login Form */}
