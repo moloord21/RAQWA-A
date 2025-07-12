@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { QRCode, QRAnalytics, QRAnalyticsSummary, QRCustomization } from '../types';
+import { AdvancedQRCustomization } from '../types/qr-templates';
 
 export const useQRCodes = () => {
   const [qrCodes, setQRCodes] = useState<QRCode[]>([]);
@@ -25,7 +26,9 @@ export const useQRCodes = () => {
         isActive: item.is_active,
         createdAt: item.created_at,
         updatedAt: item.updated_at,
-        customization: item.customization
+        customization: item.customization,
+        advancedCustomization: item.advanced_customization,
+        templateId: item.template_id
       }));
       
       setQRCodes(transformedData);
@@ -69,7 +72,10 @@ export const useQRCodes = () => {
         destinationUrl: data.destination_url,
         isActive: data.is_active,
         createdAt: data.created_at,
-        updatedAt: data.updated_at
+        updatedAt: data.updated_at,
+        customization: data.customization,
+        advancedCustomization: data.advanced_customization,
+        templateId: data.template_id
       };
       
       setQRCodes(prev => [transformedData, ...prev]);
@@ -111,7 +117,10 @@ export const useQRCodes = () => {
         destinationUrl: data.destination_url,
         isActive: data.is_active,
         createdAt: data.created_at,
-        updatedAt: data.updated_at
+        updatedAt: data.updated_at,
+        customization: data.customization,
+        advancedCustomization: data.advanced_customization,
+        templateId: data.template_id
       };
       
       setQRCodes(prev => prev.map(qr => qr.id === id ? transformedData : qr));
@@ -283,6 +292,40 @@ export const useQRCodes = () => {
     }
   };
 
+  const updateAdvancedQRCustomization = async (id: string, customization: AdvancedQRCustomization) => {
+    try {
+      const { data, error } = await supabase
+        .from('qr_codes')
+        .update({ 
+          advanced_customization: customization,
+          template_id: customization.template?.id || null
+        })
+        .eq('id', id)
+        .select()
+        .single();
+
+      if (error) throw error;
+      
+      const transformedData = {
+        id: data.id,
+        name: data.name,
+        shortCode: data.short_code,
+        destinationUrl: data.destination_url,
+        isActive: data.is_active,
+        createdAt: data.created_at,
+        updatedAt: data.updated_at,
+        customization: data.customization,
+        advancedCustomization: data.advanced_customization,
+        templateId: data.template_id
+      };
+      
+      setQRCodes(prev => prev.map(qr => qr.id === id ? transformedData : qr));
+      return transformedData;
+    } catch (err) {
+      throw new Error(err instanceof Error ? err.message : 'Failed to update advanced QR customization');
+    }
+  };
+
   const generateQRCodeImage = async (qr: QRCode, customization?: any): Promise<string> => {
     const qrUrl = `${window.location.origin}/qr/${qr.shortCode}`;
     const custom = customization || qr.customization || {
@@ -331,6 +374,7 @@ export const useQRCodes = () => {
     getQRAnalytics,
     getQRAnalyticsSummary,
     updateQRCustomization,
+    updateAdvancedQRCustomization,
     generateShortCode,
     refetch: fetchQRCodes
   };
