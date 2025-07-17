@@ -188,8 +188,32 @@ export const AdvancedQRCustomizer: React.FC<AdvancedQRCustomizerProps> = ({
   onSave, 
   onClose 
 }) => {
+  // Create a complete default customization object
+  const defaultCustomization = QR_TEMPLATES[1].customization;
+  
+  // Deep merge function to safely merge customization objects
+  const mergeCustomization = (initial?: AdvancedQRCustomization): AdvancedQRCustomization => {
+    if (!initial) return defaultCustomization;
+    
+    return {
+      size: initial.size || defaultCustomization.size,
+      margin: initial.margin || defaultCustomization.margin,
+      colors: {
+        background: initial.colors?.background || defaultCustomization.colors.background,
+        foreground: initial.colors?.foreground || defaultCustomization.colors.foreground,
+        eyeColor: initial.colors?.eyeColor || defaultCustomization.colors.eyeColor,
+        frameColor: initial.colors?.frameColor || defaultCustomization.colors.frameColor
+      },
+      bodyShape: initial.bodyShape || defaultCustomization.bodyShape,
+      eyeFrameShape: initial.eyeFrameShape || defaultCustomization.eyeFrameShape,
+      eyeBallShape: initial.eyeBallShape || defaultCustomization.eyeBallShape,
+      frame: initial.frame || defaultCustomization.frame,
+      errorCorrectionLevel: initial.errorCorrectionLevel || defaultCustomization.errorCorrectionLevel
+    };
+  };
+
   const [customization, setCustomization] = useState<AdvancedQRCustomization>(
-    initialCustomization || QR_TEMPLATES[1].customization
+    mergeCustomization(initialCustomization)
   );
   
   const [activeColorPicker, setActiveColorPicker] = useState<string | null>(null);
