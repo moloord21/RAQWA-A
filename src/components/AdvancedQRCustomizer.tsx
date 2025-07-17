@@ -52,42 +52,21 @@ const BODY_SHAPE_OPTIONS = [
 // Eye Frame Shape Options (Outer Eye) - 15 options
 const EYE_FRAME_SHAPE_OPTIONS = [
   { id: 'square', name: 'Square', type: 'square' },
-  { id: 'circle', name: 'Circle', type: 'circle' },
+  { id: 'dot', name: 'Circle', type: 'dot' },
   { id: 'rounded', name: 'Rounded', type: 'rounded' },
   { id: 'extra-rounded', name: 'Extra Rounded', type: 'extra-rounded' },
-  { id: 'leaf', name: 'Leaf', type: 'leaf' },
-  { id: 'pointed', name: 'Pointed', type: 'pointed' },
-  { id: 'star', name: 'Star', type: 'star' },
-  { id: 'diamond', name: 'Diamond', type: 'diamond' },
-  { id: 'flower', name: 'Flower', type: 'flower' },
-  { id: 'heart', name: 'Heart', type: 'heart' },
-  { id: 'shield', name: 'Shield', type: 'shield' },
-  { id: 'hexagon', name: 'Hexagon', type: 'hexagon' },
-  { id: 'octagon', name: 'Octagon', type: 'octagon' },
-  { id: 'cross', name: 'Cross', type: 'cross' },
-  { id: 'plus', name: 'Plus', type: 'plus' }
+  { id: 'classy', name: 'Classy', type: 'classy' },
+  { id: 'classy-rounded', name: 'Classy Rounded', type: 'classy-rounded' }
 ];
 
 // Eye Ball Shape Options (Inner Eye) - 18 options
 const EYE_BALL_SHAPE_OPTIONS = [
   { id: 'square', name: 'Square', type: 'square' },
-  { id: 'circle', name: 'Circle', type: 'circle' },
+  { id: 'dot', name: 'Circle', type: 'dot' },
   { id: 'rounded', name: 'Rounded', type: 'rounded' },
   { id: 'extra-rounded', name: 'Extra Rounded', type: 'extra-rounded' },
-  { id: 'diamond', name: 'Diamond', type: 'diamond' },
-  { id: 'star', name: 'Star', type: 'star' },
-  { id: 'heart', name: 'Heart', type: 'heart' },
-  { id: 'flower', name: 'Flower', type: 'flower' },
-  { id: 'leaf', name: 'Leaf', type: 'leaf' },
-  { id: 'cross', name: 'Cross', type: 'cross' },
-  { id: 'plus', name: 'Plus', type: 'plus' },
-  { id: 'triangle', name: 'Triangle', type: 'triangle' },
-  { id: 'hexagon', name: 'Hexagon', type: 'hexagon' },
-  { id: 'octagon', name: 'Octagon', type: 'octagon' },
-  { id: 'vertical', name: 'Vertical', type: 'vertical' },
-  { id: 'horizontal', name: 'Horizontal', type: 'horizontal' },
-  { id: 'mosaic', name: 'Mosaic', type: 'mosaic' },
-  { id: 'gradient', name: 'Gradient', type: 'gradient' }
+  { id: 'classy', name: 'Classy', type: 'classy' },
+  { id: 'classy-rounded', name: 'Classy Rounded', type: 'classy-rounded' }
 ];
 
 const FRAME_OPTIONS = [
@@ -232,6 +211,20 @@ export const AdvancedQRCustomizer: React.FC<AdvancedQRCustomizerProps> = ({
     try {
       if (!qrCodeRef.current) return;
 
+      // Map our style types to qr-code-styling library types
+      const mapStyleType = (styleType: string) => {
+        switch (styleType) {
+          case 'square': return 'square';
+          case 'circle': return 'circle';
+          case 'rounded': return 'rounded';
+          case 'extra-rounded': return 'extra-rounded';
+          case 'classy': return 'classy';
+          case 'classy-rounded': return 'classy-rounded';
+          case 'dot': return 'dot';
+          default: return styleType;
+        }
+      };
+
       // Create QR code with advanced styling
       const qrCode = new QRCodeStyling({
         width: customization.size,
@@ -252,25 +245,41 @@ export const AdvancedQRCustomizer: React.FC<AdvancedQRCustomizerProps> = ({
         },
         dotsOptions: {
           color: customization.colors.foreground,
-          type: customization.bodyShape.type as any
+          type: mapStyleType(customization.bodyShape.type) as any
         },
         backgroundOptions: {
           color: customization.colors.background
         },
         cornersSquareOptions: {
           color: customization.colors.eyeColor,
-          type: customization.eyeFrameShape.type as any
+          type: mapStyleType(customization.eyeFrameShape.type) as any
         },
         cornersDotOptions: {
           color: customization.colors.eyeColor,
-          type: customization.eyeBallShape.type as any
+          type: mapStyleType(customization.eyeBallShape.type) as any
         }
       });
+
+      // Apply frame styling if not 'none'
+      if (customization.frame.type !== 'none') {
+        qrCode.update({
+          backgroundOptions: {
+            color: customization.colors.background,
+            round: customization.frame.type === 'rounded' ? 0.4 : 0
+          }
+        });
+      }
 
       // Add logo if present
       if (logoDataUrl) {
         qrCode.update({
-          image: logoDataUrl
+          image: logoDataUrl,
+          imageOptions: {
+            hideBackgroundDots: true,
+            imageSize: logoSize / customization.size,
+            margin: 5,
+            crossOrigin: "anonymous"
+          }
         });
       }
 
@@ -284,10 +293,12 @@ export const AdvancedQRCustomizer: React.FC<AdvancedQRCustomizerProps> = ({
       qrCodeInstance.current = qrCode;
 
       // Generate data URL for download
-      const canvas = qrCodeRef.current?.querySelector('canvas');
-      if (canvas) {
-        setQrDataUrl(canvas.toDataURL());
-      }
+      setTimeout(() => {
+        const canvas = qrCodeRef.current?.querySelector('canvas');
+        if (canvas) {
+          setQrDataUrl(canvas.toDataURL());
+        }
+      }, 100);
     } catch (error) {
       console.error('Failed to generate advanced QR code:', error);
     }
