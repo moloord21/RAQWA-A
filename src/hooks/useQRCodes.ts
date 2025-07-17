@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import { QRCode, QRAnalytics, QRAnalyticsSummary, QRCustomization } from '../types';
+import { QRCode, QRAnalytics, QRAnalyticsSummary, QRAdvancedCustomization } from '../types';
+import { getDefaultAdvancedCustomization } from '../utils/qrTemplates';
+import { AdvancedQRGenerator } from '../utils/qrGenerator';
 
 export const useQRCodes = () => {
   const [qrCodes, setQRCodes] = useState<QRCode[]>([]);
@@ -38,13 +40,7 @@ export const useQRCodes = () => {
 
   const addQRCode = async (qrCode: Omit<QRCode, 'id' | 'createdAt' | 'updatedAt'>) => {
     try {
-      const defaultCustomization = {
-        foregroundColor: '#000000',
-        backgroundColor: '#FFFFFF',
-        size: 200,
-        margin: 2,
-        logoSize: 40
-      };
+      const defaultAdvancedCustomization = getDefaultAdvancedCustomization();
 
       const { data, error } = await supabase
         .from('qr_codes')
@@ -53,9 +49,8 @@ export const useQRCodes = () => {
           short_code: qrCode.shortCode,
           destination_url: qrCode.destinationUrl,
           is_active: qrCode.isActive,
-          customization: defaultCustomization,
-          logo_url: null,
-          logo_size: 40
+          advanced_customization: defaultAdvancedCustomization,
+          template_id: 'classic'
         }])
         .select()
         .single();
@@ -69,7 +64,8 @@ export const useQRCodes = () => {
         destinationUrl: data.destination_url,
         isActive: data.is_active,
         createdAt: data.created_at,
-        updatedAt: data.updated_at
+        updatedAt: data.updated_at,
+        customization: data.advanced_customization
       };
       
       setQRCodes(prev => [transformedData, ...prev]);
@@ -111,7 +107,8 @@ export const useQRCodes = () => {
         destinationUrl: data.destination_url,
         isActive: data.is_active,
         createdAt: data.created_at,
-        updatedAt: data.updated_at
+        updatedAt: data.updated_at,
+        customization: data.advanced_customization
       };
       
       setQRCodes(prev => prev.map(qr => qr.id === id ? transformedData : qr));
@@ -254,11 +251,11 @@ export const useQRCodes = () => {
     }
   };
 
-  const updateQRCustomization = async (id: string, customization: QRCustomization) => {
+  const updateQRCustomization = async (id: string, customization: QRAdvancedCustomization) => {
     try {
       const { data, error } = await supabase
         .from('qr_codes')
-        .update({ customization })
+        .update({ advanced_customization: customization })
         .eq('id', id)
         .select()
         .single();
@@ -273,7 +270,7 @@ export const useQRCodes = () => {
         isActive: data.is_active,
         createdAt: data.created_at,
         updatedAt: data.updated_at,
-        customization: data.customization
+        customization: data.advanced_customization
       };
       
       setQRCodes(prev => prev.map(qr => qr.id === id ? transformedData : qr));
@@ -283,30 +280,13 @@ export const useQRCodes = () => {
     }
   };
 
-  const generateQRCodeImage = async (qr: QRCode, customization?: any): Promise<string> => {
+  const generateQRCodeImage = async (qr: QRCode): Promise<string> => {
     const qrUrl = `${window.location.origin}/qr/${qr.shortCode}`;
-    const custom = customization || qr.customization || {
-      foregroundColor: '#000000',
-      backgroundColor: '#FFFFFF',
-      size: 200,
-      margin: 2
-    };
+    const customization = qr.customization || getDefaultAdvancedCustomization();
     
     try {
-      return await QRCodeLib.toDataURL(qrUrl, {
-        width: custom.size || 200,
-        margin: custom.margin || 2,
-        color: {
-          dark: custom.foregroundColor || '#000000',
-          light: custom.backgroundColor || '#FFFFFF'
-        },
-        errorCorrectionLevel: 'H',
-        type: 'image/png',
-        quality: 0.92,
-        rendererOpts: {
-          quality: 0.92
-        }
-      });
+      const generator = new AdvancedQRGenerator(qrUrl, customization);
+      return await generator.generate();
     } catch (error) {
       console.error('Failed to generate QR code:', error);
       return '';
